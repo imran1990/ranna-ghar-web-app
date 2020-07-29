@@ -11,14 +11,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 public class CityController {
     @Autowired
     private CityService cityService;
 
     @GetMapping(value="/add-city")
-    public String addCity_Get(Model model){
+    public String addCity_Get(Model model, HttpServletRequest request){
         model.addAttribute("city",new City());
+        model.addAttribute("contextPath", request.getContextPath());
         return "addCity";
 
     }

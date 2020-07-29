@@ -14,7 +14,8 @@
     <title>Title</title>
 </head>
 <body>
-<form:form action="${pageContext.request.contextPath }/add-city" modelAttribute="city">
+<c:out value="The context path is: ${contextPath}"/>
+<form:form action="${contextPath}/add-city" modelAttribute="city">
     <input name="id" type="hidden"/>
     <br><br>
 
