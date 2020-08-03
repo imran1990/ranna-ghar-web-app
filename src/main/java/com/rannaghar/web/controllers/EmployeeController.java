@@ -1,9 +1,13 @@
 package com.rannaghar.web.controllers;
 
+import com.rannaghar.web.dto.EmployeeDto;
 import com.rannaghar.web.model.City;
 import com.rannaghar.web.model.Employee;
 import com.rannaghar.web.service.CityService;
+import com.rannaghar.web.service.EmployeeService;
 import com.rannaghar.web.service.GenderService;
+
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,15 +23,22 @@ import java.util.Map;
 
 @Controller
 public class EmployeeController {
-
-    @Autowired
-    GenderService genderService;
-    @Autowired
-    CityService cityService;
+    
+    
+	private final EmployeeService employeeService;
+	private final GenderService genderService;
+	private final CityService cityService;
+    
+    public EmployeeController(EmployeeService employeeService,GenderService genderService,CityService cityService ) {
+    	this.employeeService = employeeService;
+    	this.genderService=genderService;
+    	this.cityService=cityService;
+    	
+    }
 
     @RequestMapping(value = "/add-employee",method= RequestMethod.GET)
     public String addEmployee(Model model){
-        model.addAttribute("employee",new Employee());
+        model.addAttribute("employee",new EmployeeDto());
 
 
 		model.addAttribute("genders", genderService.getGenderMap());
@@ -49,12 +60,16 @@ public class EmployeeController {
     }
 
     @PostMapping(value ="/add-employee")
-    public String addEmployee_Post(@ModelAttribute("employee") Employee employee,Model model){
-        System.out.println(employee.toString());
-        employee.setGender(genderService.getGenderByKey(employee.getGender()));
-        City city=cityService.getCityByCode(employee.getCity());
-        employee.setCity(city !=null ? city.getCityName():"None");
-        model.addAttribute("employee",employee);
+    public String addEmployee_Post(@ModelAttribute("employee") EmployeeDto employeeDto,Model model){
+        System.out.println(employeeDto.toString());
+        employeeDto.setGender(genderService.getGenderByKey(employeeDto.getGender()));
+        City city=cityService.getCityByCode(employeeDto.getCity());
+        employeeDto.setCity(city !=null ? city.getCityName():"None");
+        model.addAttribute("employee",employeeDto);
+        
+        employeeService.save(employeeDto,city);
+        	
+        
         return "showEmployees";
     }
 

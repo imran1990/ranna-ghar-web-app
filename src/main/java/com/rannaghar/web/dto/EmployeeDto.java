@@ -1,29 +1,20 @@
-package com.rannaghar.web.model;
+package com.rannaghar.web.dto;
 
-import java.util.List;
-
-public class Employee {
-    private String id;
+public class EmployeeDto {
+	
+	private String id;
     private String firstName;
     private String lastName;
     private String email;
     private Integer age;
     private String gender;
-    private String city_uuid;
-    
+    private String city;
+   
     //private String city;
     //private String joiningDate;
 
 
-    public String getCity_uuid() {
-		return city_uuid;
-	}
-
-	public void setCity_uuid(String city_uuid) {
-		this.city_uuid = city_uuid;
-	}
-
-	public String getId() {
+    public String getId() {
         return id;
     }
 
@@ -71,13 +62,25 @@ public class Employee {
         this.gender = gender;
     }
 
-	@Override
-	public String toString() {
-		return "Employee [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", age=" + age + ", gender=" + gender + ", city_uuid=" + city_uuid + "]";
-	}
+    public String getCity() {
+        return city;
+    }
 
-   
+    public void setCity(String city) {
+        this.city = city;
+    }
 
-   
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id='" + id + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", age=" + age +
+                ", gender='" + gender + '\'' +
+                ", city=" + city +
+                '}';
+    }
+
 }
