@@ -1,17 +1,14 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: shuvo
-  Date: 6/26/2020
-  Time: 10:24 AM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Title</title>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
 </head>
 <body>
+<c:forEach var="employee" items="${employeeList}">
 <div>
 ID : ${employee.id}<br>
 First Name: ${employee.firstName}<br>
@@ -21,6 +18,8 @@ Age : ${employee.age}<br>
 Gender : ${employee.gender}<br>
 City : ${employee.city}<br>
 </div>
+<hr>
+</c:forEach>
 
 </body>
 </html>

@@ -11,10 +11,12 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,16 +63,31 @@ public class EmployeeController {
 
     @PostMapping(value ="/add-employee")
     public String addEmployee_Post(@ModelAttribute("employee") EmployeeDto employeeDto,Model model){
-        System.out.println(employeeDto.toString());
-        employeeDto.setGender(genderService.getGenderByKey(employeeDto.getGender()));
-        City city=cityService.getCityByCode(employeeDto.getCity());
-        employeeDto.setCity(city !=null ? city.getCityName():"None");
-        model.addAttribute("employee",employeeDto);
-        
-        employeeService.save(employeeDto,city);
-        	
-        
-        return "showEmployees";
+    	 System.out.println(employeeDto.toString());
+         employeeDto.setGender(genderService.getGenderByKey(employeeDto.getGender()));
+         City city=cityService.getCityByCode(employeeDto.getCity());
+         employeeDto.setCity(city !=null ? city.getCityName():"None");
+         model.addAttribute("employee",employeeDto);
+         
+         employeeService.save(employeeDto,city);         	
+         
+         return "showEmployees";
     }
-
+    
+    @GetMapping(value="/show-allEmployee")
+    public String showAllEmployee_Get(Model model) {
+    	
+    	List <EmployeeDto> employeeDtoList =employeeService.getEmployeeList();
+        model.addAttribute("employeeList",employeeDtoList);
+    	return "showAllEmployee";
+    }
+    
+    @GetMapping(value="/show-employee-by-city")
+    public String showEmployeeByCity_Get(@RequestParam("cityName") String cityName, Model model) {
+    	List<EmployeeDto>  dtoList = employeeService.findByCityName(cityName);
+    	model.addAttribute("employeeList", dtoList);
+    	return "showAllEmployee";
+    }
+    
+   
 }
